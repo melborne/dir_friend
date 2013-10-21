@@ -15,6 +15,7 @@ module DirFriend
   end
 
   class D < F
+    include Enumerable
     attr_reader :entries
     def initialize(name, level=0, depth=Float::MAX.to_i)
       super(name, level)
