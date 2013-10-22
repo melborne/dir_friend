@@ -66,4 +66,10 @@ module DirFriend
       end
     end
   end
+
+  class Any
+    def self.new(f, *opt)
+      File.directory?(f) ? D.new(f, *opt) : F.new(f, *opt)
+    end
+  end
 end

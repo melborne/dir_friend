@@ -72,5 +72,22 @@ describe DirFriend do
     end
   end
 
+  describe DirFriend::Any do
+    before(:each) do
+      %w(A A/D A/D/G).each { |d| Dir.mkdir d }
+      %w(A/a A/b A/c A/D/e A/D/f A/D/G/h A/D/G/i).each { |f| File.write(f, '') }
+    end
+
+    describe '.new' do
+      it 'returns a F object when the arg is a file' do
+        any = DirFriend::Any.new('A/a')
+        expect(any).to be_instance_of(DirFriend::F)
+      end
+
+      it 'returns a D object when the arg is a directory' do
+        any = DirFriend::Any.new('A')
+        expect(any).to be_instance_of(DirFriend::D)
+      end
+    end
   end
 end
