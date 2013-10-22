@@ -2,6 +2,7 @@ require "dir_friend/version"
 
 module DirFriend
   class F
+    include Comparable
     attr_reader :name, :path, :level, :stat
     def initialize(name, level:0)
       @name = File.basename(name)
@@ -20,6 +21,10 @@ module DirFriend
       self.path == other.path
     end
     alias :eql? :==
+
+    def <=>(other)
+      self.name <=> other.name
+    end
 
     def to_s
       "F: #{name}"
@@ -50,7 +55,13 @@ module DirFriend
     end
 
     def up
-      D.new path.sub(/\/[^\/]+$/, ''), level:-1
+      D.new path.sub(/\/[^\/]+$/, ''), level:level-1
+    end
+
+    def down(child=nil)
+      child ||= entries.select(&:directory?).min.name
+      lv = child.scan(/\/[^\/]+/).size + 1
+      D.new File.join(path, child), level:level+lv
     end
 
     def to_s

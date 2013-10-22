@@ -34,6 +34,16 @@ describe DirFriend do
         expect(@f.atime).to eq f.atime
       end
     end
+
+    describe '#<=>' do
+      it 'returns a minimum file' do
+        fs = %w(c.txt b.txt a.txt).map do |f|
+          File.write(f, '')
+          DirFriend::F.new f
+        end
+        expect(fs.min).to eq fs.last
+      end
+    end
   end
 
   describe DirFriend::D do
@@ -66,7 +76,33 @@ describe DirFriend do
     describe '#up' do
       it 'returns a parent directory object' do
         d = DirFriend::D.new('A/D')
-        expect(d.up).to eq @d
+        up = d.up
+        expect(up).to eq @d
+        expect(up.level).to eq @d.level-1
+      end
+    end
+
+    describe '#down' do
+      it 'returns a child directory object' do
+        d = DirFriend::D.new('A/D')
+        down = @d.down('D')
+        expect(down).to eq d
+        expect(down.level).to eq d.level+1
+      end
+
+      it 'returns a child child directory object' do
+        d = DirFriend::D.new('A/D/G')
+        down = @d.down('D/G')
+        expect(down).to eq d
+        expect(down.level).to eq d.level+2
+      end
+
+      it 'returns a minimum child when no argument supplied' do
+        Dir.mkdir('A/C')
+        d1 = DirFriend::D.new('A')
+        d2 = DirFriend::D.new('A/C')
+        down = d1.down
+        expect(down).to eq d2
       end
     end
   end
