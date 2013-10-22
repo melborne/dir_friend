@@ -66,8 +66,7 @@ describe DirFriend do
     describe '#up' do
       it 'returns a parent directory object' do
         d = DirFriend::D.new('A/D')
-        expect(d.up.name).to eq @d.name
-        expect(d.up.path).to eq @d.path
+        expect(d.up).to eq @d
       end
     end
   end

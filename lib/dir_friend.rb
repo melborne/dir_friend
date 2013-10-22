@@ -16,6 +16,11 @@ module DirFriend
       stat.__send__(name)
     end
 
+    def ==(other)
+      self.path == other.path
+    end
+    alias :eql? :==
+
     def to_s
       "F: #{name}"
     end
