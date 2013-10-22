@@ -3,7 +3,7 @@ require "dir_friend/version"
 module DirFriend
   class F
     attr_reader :name, :path, :level, :stat
-    def initialize(name, level=0)
+    def initialize(name, level:0)
       @name = File.basename(name)
       @path = File.expand_path(name)
       @stat = File.stat(@path)
@@ -24,8 +24,8 @@ module DirFriend
   class D < F
     include Enumerable
     attr_reader :entries
-    def initialize(name, level=0, depth=Float::MAX.to_i)
-      super(name, level)
+    def initialize(name, level:0, depth:Float::MAX.to_i)
+      super(name, level:level)
       @entries = []
       build(depth) if depth >= 1
       self
@@ -39,37 +39,35 @@ module DirFriend
     end
 
     def info
-      dirs, fs = group_by { |f| f.is_a? D }.map { |_, fs| fs.size }
+      dirs, files = group_by { |f| f.is_a? D }.map { |_, fs| fs.size }
       depth = map(&:level).max
-      {directories: dirs, files: fs, depth: depth}
+      {directories: dirs, files: files, depth: depth}
     end
 
     def up
-      D.new path.sub(/\/[^\/]+$/, ''), -1
+      D.new path.sub(/\/[^\/]+$/, ''), level:-1
     end
 
     def to_s
       "D: #{name}"
     end
 
-    def <<(file)
-      @entries << file
-    end
-
     private
     def build(depth)
       entries = Dir[File.join(path, '*')]
       entries.each do |ent|
-        self << begin
-          File.directory?(ent) ? D.new(ent, level+1, depth-1) : F.new(ent, level+1)
-        end
+        @entries << Any.new(ent, level:level+1, depth:depth-1)
       end
     end
   end
 
   class Any
-    def self.new(f, *opt)
-      File.directory?(f) ? D.new(f, *opt) : F.new(f, *opt)
+    def self.new(f, level:0, depth:Float::MAX.to_i)
+      if File.directory?(f)
+        D.new(f, level:level, depth:depth)
+      else
+        F.new(f, level:level)
+      end
     end
   end
 end
