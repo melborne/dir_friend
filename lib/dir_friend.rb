@@ -2,11 +2,18 @@ require "dir_friend/version"
 
 module DirFriend
   class F
-    attr_reader :name, :path, :level
+    attr_reader :name, :path, :level, :stat
     def initialize(name, level=0)
       @name = File.basename(name)
       @path = File.expand_path(name)
+      @stat = File.stat(@path)
       @level = level
+    end
+
+    def method_missing(name, *a, &b)
+      stat_methods = stat.class.instance_methods(false)
+      return super unless stat_methods.include?(name)
+      stat.__send__(name)
     end
 
     def to_s

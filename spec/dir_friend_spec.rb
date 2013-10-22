@@ -19,6 +19,21 @@ describe DirFriend do
         expect(@f.path).to eq path
       end
     end
+
+    describe '#stat' do
+      it 'returns File::Stat object' do
+        expect(@f.stat).to be_instance_of(File::Stat)
+      end
+    end
+
+    describe '#method_missing' do
+      it 'returns instance methods of File::Stat' do
+        f = File::Stat.new('foo.txt')
+        expect(@f.size).to eq f.size
+        expect(@f.directory?).to eq f.directory?
+        expect(@f.atime).to eq f.atime
+      end
+    end
   end
 
   describe DirFriend::D do
