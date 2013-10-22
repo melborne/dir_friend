@@ -31,10 +31,6 @@ module DirFriend
       self
     end
 
-    def <<(file)
-      @entries << file
-    end
-
     def each(&blk)
       entries.each do |e|
         blk.call(e)
@@ -42,8 +38,22 @@ module DirFriend
       end
     end
 
+    def info
+      dirs, fs = group_by { |f| f.is_a? D }.map { |_, fs| fs.size }
+      depth = map(&:level).max
+      {directories: dirs, files: fs, depth: depth}
+    end
+
+    def up
+      D.new path.sub(/\/[^\/]+$/, ''), -1
+    end
+
     def to_s
-      "D: #{name} => [#{entries.join(', ')}]"
+      "D: #{name}"
+    end
+
+    def <<(file)
+      @entries << file
     end
 
     private

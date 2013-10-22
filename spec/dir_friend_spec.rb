@@ -55,5 +55,22 @@ describe DirFriend do
         expect(ent).to eq %w(D G a b c e f h i)
       end
     end
+
+    describe '#info' do
+      it 'returns numbers of files and directories in the directory' do
+        info = {directories: 2, files: 7, depth: 3}
+        expect(@d.info).to eq info
+      end
+    end
+
+    describe '#up' do
+      it 'returns a parent directory object' do
+        d = DirFriend::D.new('A/D')
+        expect(d.up.name).to eq @d.name
+        expect(d.up.path).to eq @d.path
+      end
+    end
+  end
+
   end
 end
