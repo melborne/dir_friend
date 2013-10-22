@@ -53,6 +53,13 @@ describe DirFriend do
       @d = DirFriend::D.new('A')
     end
 
+    describe '.new' do
+      it 'returns current directory without argument' do
+        d = DirFriend::D.new
+        expect(d.name).to eq 'dir_friend'
+      end
+    end
+
     describe '#entries' do
       it 'returns entries in directory' do
         expect(@d.entries.map(&:name).sort).to eq %w(D a b c)
@@ -78,7 +85,7 @@ describe DirFriend do
         d = DirFriend::D.new('A/D')
         up = d.up
         expect(up).to eq @d
-        expect(up.level).to eq @d.level-1
+        expect(up.level).to eq 0
       end
     end
 
@@ -87,14 +94,14 @@ describe DirFriend do
         d = DirFriend::D.new('A/D')
         down = @d.down('D')
         expect(down).to eq d
-        expect(down.level).to eq d.level+1
+        expect(down.level).to eq 0
       end
 
       it 'returns a child child directory object' do
         d = DirFriend::D.new('A/D/G')
         down = @d.down('D/G')
         expect(down).to eq d
-        expect(down.level).to eq d.level+2
+        expect(down.level).to eq 0
       end
 
       it 'returns a minimum child when no argument supplied' do

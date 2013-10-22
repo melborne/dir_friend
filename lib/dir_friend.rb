@@ -5,8 +5,8 @@ module DirFriend
     include Comparable
     attr_reader :name, :path, :level, :stat
     def initialize(name, level:0)
-      @name = File.basename(name)
       @path = File.expand_path(name)
+      @name = File.basename(@path)
       @stat = File.stat(@path)
       @level = level
     end
@@ -34,7 +34,7 @@ module DirFriend
   class D < F
     include Enumerable
     attr_reader :entries
-    def initialize(name, level:0, depth:Float::MAX.to_i)
+    def initialize(name='.', level:0, depth:Float::MAX.to_i)
       super(name, level:level)
       @entries = []
       build(depth) if depth >= 1
@@ -55,13 +55,16 @@ module DirFriend
     end
 
     def up
-      D.new path.sub(/\/[^\/]+$/, ''), level:level-1
+      D.new path.sub(/\/[^\/]+$/, '')
     end
 
     def down(child=nil)
-      child ||= entries.select(&:directory?).min.name
-      lv = child.scan(/\/[^\/]+/).size + 1
-      D.new File.join(path, child), level:level+lv
+      unless child
+        min = entries.select(&:directory?).min
+        return min unless min
+        child = min.name
+      end
+      D.new File.join(path, child)
     end
 
     def to_s
