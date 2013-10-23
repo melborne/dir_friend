@@ -112,6 +112,16 @@ describe DirFriend do
         expect(down).to eq d2
       end
     end
+
+    describe '#to_dot' do
+      before(:each) do
+        @d = DirFriend::D.new('A/D/G')
+      end
+
+      it 'returns a dot graph file' do
+        expect(@d.to_dot).to match(/digraph G {.*\[label=\"G\"\].*}/m)
+      end
+    end
   end
 
   describe DirFriend::Any do

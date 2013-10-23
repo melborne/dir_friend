@@ -1,4 +1,5 @@
 require "dir_friend/version"
+require 'gviz'
 
 module DirFriend
   class F
@@ -71,6 +72,10 @@ module DirFriend
       "D: #{name}"
     end
 
+    def to_dot()
+      DirFriend::Graph.new(self).render()
+    end
+
     private
     def build(depth)
       entries = Dir[File.join(path, '*')]
@@ -87,6 +92,32 @@ module DirFriend
       else
         F.new(f, level:level)
       end
+    end
+  end
+
+  class Graph
+    def initialize(dir)
+      @dir = dir
+    end
+
+    def render()
+      build_graph().to_s
+    end
+
+    def build_graph()
+      dirs = [@dir] + @dir.select(&:directory?)
+      gv = ::Gviz.new
+      gv.graph do
+        dirs.each do |d|
+          d_id = d.path.to_id
+          ent_ids = d.entries.map { |ent| ent.path.to_id }
+          ent_names = d.entries.map(&:name)
+          route d_id => ent_ids
+          node d_id, label:d.name
+          ent_ids.zip(ent_names).each { |id, n| node id, label:n }
+        end
+      end
+      gv
     end
   end
 end
