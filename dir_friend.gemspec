@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = DirFriend::VERSION
   spec.authors       = ["kyoendo"]
   spec.email         = ["postagie@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Show directory information}
+  spec.summary       = %q{Show directory information}
   spec.homepage      = ""
   spec.license       = "MIT"
 
