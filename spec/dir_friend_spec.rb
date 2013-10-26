@@ -119,7 +119,14 @@ describe DirFriend do
       end
 
       it 'returns a dot graph file' do
+        pending 'should test after Graph tests'
         expect(@d.to_dot).to match(/digraph G {.*\[label=\"G\"\].*}/m)
+      end
+
+      it 'accept some graph arguments with keywords' do
+        pending 'should test after Graph tests'
+        opt = {layout:'fdp', color:'rdpu4'}
+        expect(@d.to_dot(opt)).to match(/fdp.*rdpu4/)
       end
     end
   end
