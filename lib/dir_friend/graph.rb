@@ -8,7 +8,10 @@ module DirFriend
       build_graph(opt).to_s
     end
 
-    # opt = {layout:'fdp', graph:{layout:'fdp'}}
+    # Build a graphviz dot data using Gviz
+    # opt keys: :layout, :colorscheme, :dir_shape, :file_shape,
+    #           :graph(or global), :nodes, :edges
+    # ex. layout:'fdp', colorscheme:'blues', graph:{splines:'ortho'}
     def build_graph(opt)
       global_opt, nodes_opt, edges_opt, dir_shape, file_shape = opt_parser(opt)
 
@@ -79,4 +82,3 @@ module DirFriend
     end
   end
 end
-
