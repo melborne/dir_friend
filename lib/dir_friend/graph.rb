@@ -21,13 +21,13 @@ module DirFriend
       dirs.each do |d|
         # files
         d.entries.each do |ent|
-          c, fc = color_id(ent.level)
+          c, fc = color_id(ent.level, nodes_opt[:style])
           gv.node ent.path.to_id, label:ent.name, shape:file_shape,
                                   color:c, fontcolor:fc
         end
 
         # directory
-        c, fc = color_id(d.level)
+        c, fc = color_id(d.level, nodes_opt[:style])
         gv.node d.path.to_id, label:d.name, shape:dir_shape,
                               color:c, fontcolor:fc
 
@@ -67,9 +67,14 @@ module DirFriend
       depth > 9 ? 9 : depth
     end
 
-    def color_id(lv)
+    def color_id(lv, node_style)
       color = @dir.depth + 1 - lv
-      fontc = lv < ((@dir.depth+1)/2) ? 'white' : 'black'
+      fontc =
+        if node_style && node_style.match(/filled/)
+          lv < ((@dir.depth+1)/2) ? 'white' : 'black'
+        else
+          'black'
+        end
       [color, fontc]
     end
   end
