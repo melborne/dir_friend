@@ -1,6 +1,6 @@
 # DirFriend
 
-TODO: Write a gem description
+`DirFriend` is a friend of file directory.
 
 ## Installation
 
