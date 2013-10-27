@@ -24,6 +24,12 @@ module DirFriend
       self.name <=> other.name
     end
 
+    def info
+      format = %i(mode nlink uid gid size mtime)
+      arr = format.map { |attr| [attr, stat.send(attr)] }
+      Hash[ arr ]
+    end
+
     def to_s
       "F: #{name}"
     end

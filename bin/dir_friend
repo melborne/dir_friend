@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'dir_friend'
+
+DirFriend::Command.start(ARGV)
