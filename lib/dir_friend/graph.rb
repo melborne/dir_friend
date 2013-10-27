@@ -67,7 +67,10 @@ module DirFriend
 
     def color_depth
       depth = @dir.depth + 1
-      depth > 9 ? 9 : depth
+      if depth > 9 then 9
+      elsif depth < 3 then 3
+      else depth
+      end
     end
 
     def color_id(lv, node_style)
