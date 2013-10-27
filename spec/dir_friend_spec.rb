@@ -119,14 +119,14 @@ describe DirFriend do
       end
 
       it 'returns a dot graph file' do
-        words = %w(layout="dot" colorscheme="greys2")
+        words = %w(layout="dot")
         test = words.all? { |w| @d.to_dot(open:false).include? w }
         expect(test).to be_true
 
       end
 
       it 'accept some graph arguments with keywords' do
-        opt = {layout:'fdp', color:'rdpu4', open:false}
+        opt = {layout:'fdp', colorscheme:'rdpu4', open:false}
         words = %w(layout="fdp" colorscheme="rdpu4")
         test = words.all? { |w| @d.to_dot(opt).include? w }
         expect(test).to be_true

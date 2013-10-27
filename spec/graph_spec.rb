@@ -13,7 +13,7 @@ describe DirFriend::Graph do
   describe '#render' do
     it 'reutrns dot data w/o opt' do
       g = DirFriend::Graph.new(@d).render
-      words = %w(digraph colorscheme="greys4")
+      words = %w(digraph)
       test = words.all? { |w| g.include? w }
       expect(test).to be_true
     end
