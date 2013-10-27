@@ -75,8 +75,13 @@ describe DirFriend do
 
     describe '#info' do
       it 'returns numbers of files and directories in the directory' do
-        info = {directories: 2, files: 7, depth: 4}
+        info = {directories: 2, files: 7, depth: 3}
         expect(@d.info).to eq info
+      end
+
+      it 'returns a sub directory info' do
+        info = {directories: 1, files: 4, depth: 2}
+        expect(@d.down('D').info).to eq info
       end
     end
 

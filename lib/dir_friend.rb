@@ -71,7 +71,7 @@ module DirFriend
     end
 
     def depth
-      @depth ||= map(&:level).max + 1
+      @depth ||= map(&:level).max
     end
 
     def to_s

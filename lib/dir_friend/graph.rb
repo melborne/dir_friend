@@ -63,13 +63,13 @@ module DirFriend
     end
 
     def color_depth
-      depth = @dir.depth
+      depth = @dir.depth + 1
       depth > 9 ? 9 : depth
     end
 
     def color_id(lv)
-      color = @dir.depth - lv
-      fontc = lv < (@dir.depth/2) ? 'white' : 'black'
+      color = @dir.depth + 1 - lv
+      fontc = lv < ((@dir.depth+1)/2) ? 'white' : 'black'
       [color, fontc]
     end
   end
