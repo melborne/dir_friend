@@ -13,7 +13,7 @@ module DirFriend
       global_opt, nodes_opt, edges_opt, dir_shape, file_shape = opt_parser(opt)
 
       dirs = [@dir] + @dir.select(&:directory?)
-      color_id = ->lv{ [@dir.depth-lv, 'white'] }
+      color_id = ->lv{ [@dir.depth-lv, 'black'] }
       # fc = c > 6 ? 'white' : 'black'
       
       gv = ::Gviz.new
@@ -44,10 +44,14 @@ module DirFriend
     private
     def opt_parser(opt)
       global = opt[:global] || opt[:graph] || {layout:'dot'}
-      global = global.merge(layout:opt[:layout])
+      global = global.merge(layout:opt[:layout]) if opt[:layout]
+
       nodes  = opt[:nodes] || {}
-      cscheme = opt_color_parser(opt[:colorscheme]||opt[:color]||'greys')
-      nodes  = nodes.merge(colorscheme:cscheme)
+      if cs = (nodes[:colorscheme] || opt[:colorscheme])
+        cs = opt_color_parser(cs)
+        nodes.update(style:'filled', colorscheme:cs)
+      end
+
       edges  = opt[:edges] || {}
       dir_shape = opt[:dir_shape] || nodes[:shape] || 'ellipse'
       file_shape = opt[:file_shape] || nodes[:shape] || 'ellipse'

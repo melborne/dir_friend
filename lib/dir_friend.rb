@@ -78,16 +78,17 @@ module DirFriend
       "D: #{name}"
     end
 
-    def to_dot(open=true, opt={})
-      dot = DirFriend::Graph.new(self).render(opt)
-      if open
+    def to_dot(opt={})
+      opt = {open:true}.merge(opt)
+      graph = DirFriend::Graph.new(self)
+      if open = opt.delete(:open)
         Tempfile.open(['dirfriend', '.dot']) do |f|
-          f.puts dot
+          f.puts graph.render(opt)
           puts "Dot opened with tempfile: #{f.path}"
           system "open #{f.path}"
         end
       else
-        dot
+        graph.render(opt)
       end
     rescue
       abort "something go wrong."
