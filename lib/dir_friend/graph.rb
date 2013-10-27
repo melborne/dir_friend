@@ -13,30 +13,26 @@ module DirFriend
       global_opt, nodes_opt, edges_opt, dir_shape, file_shape = opt_parser(opt)
 
       dirs = [@dir] + @dir.select(&:directory?)
-      color_id = ->lv{ [@dir.depth-lv, 'black'] }
-      # fc = c > 6 ? 'white' : 'black'
       
       gv = ::Gviz.new
-      gv.graph do
-        global global_opt
-        nodes nodes_opt
-        edges edges_opt
-        dirs.each do |d|
-          # files
-          d.entries.each do |ent|
-            c, fc = color_id[ent.level]
-            node ent.path.to_id, label:ent.name, shape:file_shape,
-                                 color:c, fontcolor:fc
-          end
-
-          # directory
-          c, fc = color_id[d.level]
-          node d.path.to_id, label:d.name, shape:dir_shape,
-                             color:c, fontcolor:fc
-
-          # route dir => children
-          route d.path.to_id => d.entries.map{ |ch| ch.path.to_id }
+      gv.global global_opt
+      gv.nodes nodes_opt
+      gv.edges edges_opt
+      dirs.each do |d|
+        # files
+        d.entries.each do |ent|
+          c, fc = color_id(ent.level)
+          gv.node ent.path.to_id, label:ent.name, shape:file_shape,
+                                  color:c, fontcolor:fc
         end
+
+        # directory
+        c, fc = color_id(d.level)
+        gv.node d.path.to_id, label:d.name, shape:dir_shape,
+                              color:c, fontcolor:fc
+
+        # route dir => children
+        gv.route d.path.to_id => d.entries.map{ |ch| ch.path.to_id }
       end
       gv
     end
@@ -69,6 +65,12 @@ module DirFriend
     def color_depth
       depth = @dir.depth
       depth > 9 ? 9 : depth
+    end
+
+    def color_id(lv)
+      color = @dir.depth - lv
+      fontc = lv < 2 ? 'white' : 'black'
+      [color, fontc]
     end
   end
 end
