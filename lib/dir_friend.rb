@@ -54,7 +54,6 @@ module DirFriend
 
     def info
       dirs, files = group_by { |f| f.is_a? D }.map { |_, fs| fs.size }
-      depth = map(&:level).max
       {directories: dirs, files: files, depth: depth}
     end
 
@@ -71,16 +70,24 @@ module DirFriend
       D.new File.join(path, child)
     end
 
+    def depth
+      @depth ||= map(&:level).max + 1
+    end
+
     def to_s
       "D: #{name}"
     end
 
-    def to_dot(opt={})
+    def to_dot(open=true, opt={})
       dot = DirFriend::Graph.new(self).render(opt)
-      Tempfile.open(['dirfriend', '.dot']) do |f|
-        f.puts dot
-        puts "Tempfile: #{f.path} opened."
-        system "open #{f.path}"
+      if open
+        Tempfile.open(['dirfriend', '.dot']) do |f|
+          f.puts dot
+          puts "Dot opened with tempfile: #{f.path}"
+          system "open #{f.path}"
+        end
+      else
+        dot
       end
     rescue
       abort "something go wrong."

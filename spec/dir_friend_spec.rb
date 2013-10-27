@@ -75,7 +75,7 @@ describe DirFriend do
 
     describe '#info' do
       it 'returns numbers of files and directories in the directory' do
-        info = {directories: 2, files: 7, depth: 3}
+        info = {directories: 2, files: 7, depth: 4}
         expect(@d.info).to eq info
       end
     end
@@ -119,14 +119,17 @@ describe DirFriend do
       end
 
       it 'returns a dot graph file' do
-        pending 'should test after Graph tests'
-        expect(@d.to_dot).to match(/digraph G {.*\[label=\"G\"\].*}/m)
+        words = %w(digraph colorscheme="greys2")
+        test = words.all? { |w| @d.to_dot(false).include? w }
+        expect(test).to be_true
+
       end
 
       it 'accept some graph arguments with keywords' do
-        pending 'should test after Graph tests'
         opt = {layout:'fdp', color:'rdpu4'}
-        expect(@d.to_dot(opt)).to match(/fdp.*rdpu4/)
+        words = %w(layout="fdp" colorscheme="rdpu4")
+        test = words.all? { |w| @d.to_dot(false, opt).include? w }
+        expect(test).to be_true
       end
     end
   end
