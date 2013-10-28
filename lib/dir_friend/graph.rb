@@ -5,14 +5,14 @@ module DirFriend
     end
 
     def render(opt={})
-      build_graph(opt).to_s
+      build(opt).to_s
     end
 
     # Build a graphviz dot data using Gviz
     # opt keys: :layout, :colorscheme, :dir_shape, :file_shape,
     #           :graph(or global), :nodes, :edges
     # ex. layout:'fdp', colorscheme:'blues', graph:{splines:'ortho'}
-    def build_graph(opt)
+    def build(opt)
       global_opt, nodes_opt, edges_opt, dir_shape, file_shape = opt_parser(opt)
 
       dirs = [@dir] + @dir.select(&:directory?)

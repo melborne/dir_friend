@@ -1,4 +1,12 @@
+require 'rbconfig'
+
 module DirFriend
+  class OS
+    def self.mac?
+      RbConfig::CONFIG['host_os'].match /mac|darwin/
+    end
+  end
+
   class D < F
     include Enumerable
     attr_reader :entries
@@ -43,21 +51,20 @@ module DirFriend
     end
 
     def to_dot(opt={})
-      opt = {open:true}.merge(opt)
       graph = DirFriend::Graph.new(self)
-      if open = opt.delete(:open)
+      if opt.delete(:open) && OS.mac?
         Tempfile.open(['dirfriend', '.dot']) do |f|
-          f.puts graph.render(opt)
-          puts "Dot opened with tempfile: #{f.path}"
-          system "open #{f.path}"
+          f.puts graph.build(opt)
+          if system("open", f.path)
+            puts "Graphviz opened tempfile: #{f.path}"
+          end
         end
       else
-        graph.render(opt)
+        graph.build(opt)
       end
     rescue
       abort "something go wrong."
     end
-    alias :open_dot :to_dot
 
     private
     def build(depth)

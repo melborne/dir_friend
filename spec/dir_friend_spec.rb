@@ -125,7 +125,7 @@ describe DirFriend do
 
       it 'returns a dot graph file' do
         words = %w(layout="dot")
-        test = words.all? { |w| @d.to_dot(open:false).include? w }
+        test = words.all? { |w| @d.to_dot(open:false).to_s.include? w }
         expect(test).to be_true
 
       end
@@ -133,7 +133,7 @@ describe DirFriend do
       it 'accept some graph arguments with keywords' do
         opt = {layout:'fdp', colorscheme:'rdpu4', open:false}
         words = %w(layout="fdp" colorscheme="rdpu4")
-        test = words.all? { |w| @d.to_dot(opt).include? w }
+        test = words.all? { |w| @d.to_dot(opt).to_s.include? w }
         expect(test).to be_true
       end
     end
