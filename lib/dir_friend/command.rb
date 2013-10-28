@@ -8,7 +8,7 @@ module DirFriend
       puts Any.new(path).info
     end
 
-    desc "dot PATH [FORMAT]", "Build & save a graphviz dot file"
+    desc "dot PATH", "Build & Save a graphviz dot file"
     option :layout, aliases:"-l"
     option :colorscheme, aliases:"-c"
     option :dir_shape, aliases:"-d"
@@ -22,8 +22,9 @@ module DirFriend
       opt = options.dup.inject({}) { |h, (k,v)| h[k.intern] = v; h  }
       save_path = opt.delete(:save)
       opt = opt_parser(opt)
-      dir = D.new(path, options[:depth])
+      dir = D.new(path, depth:options[:depth].to_i)
       dir.to_dot(opt).save(save_path)
+      puts "Dot file created: `#{save_path}.dot`"
     end
 
     desc "version", "Show DirFriend version"
