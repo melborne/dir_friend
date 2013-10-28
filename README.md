@@ -32,48 +32,50 @@ In your terminal, try followings;
 
 In your ruby script;
 
-    require 'dir_friend'
-    
-    dir = DirFriend::D.new('path/to/project')
-    
-    # Show info
-    dir.info #=> {:directories=>7, :files=>2, :depth=>3}
+```ruby
+require 'dir_friend'
 
-    # Show children in the directory
-    puts dir.entries
-    >> F: Gemfile
-    >> D: lib
-    >> F: LICENSE.txt
-    >> F: myproject.gemspec
-    >> F: Rakefile
-    >> F: README.md
-    
-    # Traverse all files and directories under the directory
-    dir.each do |f|
-      puts f.path
-    end
-    >> /project/myproject/Gemfile
-    >> /project/myproject/lib
-    >> /project/myproject/lib/myproject
-    >> /project/myproject/lib/myproject/version.rb
-    >> /project/myproject/lib/myproject.rb
-    >> /project/myproject/LICENSE.txt
-    >> /project/myproject/myproject.gemspec
-    >> /project/myproject/Rakefile
-    >> /project/myproject/README.md
+dir = DirFriend::D.new('path/to/project')
 
-    # Output a dot data(Gviz object)
-    puts dir.to_dot # => dot data
+# Show info
+dir.info #=> {:directories=>7, :files=>2, :depth=>3}
 
-    # with options
-    opt = {colorscheme:greens, layout:'fdp', global:"bgcolor:azure,splines:ortho" }
-    puts dir.to_dot(opt)
+# Show children in the directory
+puts dir.entries
+>> F: Gemfile
+>> D: lib
+>> F: LICENSE.txt
+>> F: myproject.gemspec
+>> F: Rakefile
+>> F: README.md
 
-    # Save to a file
-    dir.to_dot.save(:mydot)
-    
-    # Open Graphviz.app with tempfile for dot data(mac only)
-    dir.to_dot open:true
+# Traverse all files and directories under the directory
+dir.each do |f|
+  puts f.path
+end
+>> /project/myproject/Gemfile
+>> /project/myproject/lib
+>> /project/myproject/lib/myproject
+>> /project/myproject/lib/myproject/version.rb
+>> /project/myproject/lib/myproject.rb
+>> /project/myproject/LICENSE.txt
+>> /project/myproject/myproject.gemspec
+>> /project/myproject/Rakefile
+>> /project/myproject/README.md
+
+# Output a dot data(Gviz object)
+puts dir.to_dot # => dot data
+
+# with options
+opt = {colorscheme:greens, layout:'fdp', global:"bgcolor:azure,splines:ortho" }
+puts dir.to_dot(opt)
+
+# Save to a file
+dir.to_dot.save(:mydot)
+
+# Open Graphviz.app with tempfile for dot data(mac only)
+dir.to_dot open:true
+```
 
 ## Contributing
 
