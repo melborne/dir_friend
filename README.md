@@ -27,7 +27,7 @@ In your terminal, try followings;
     % dir_friend dot path/to/project
     
     # Create with some options
-    % dir_friend dot path/to/project -c blues --dir_shape box
+    % dir_friend dot path/to/project -l fdp -c blues --dir_shape box
     % dir_friend dot path/to/project -g "bgcolor:azure,rkdir:LR,splines:ortho"
 
 In your ruby script;

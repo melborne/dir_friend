@@ -14,7 +14,7 @@ ex.
 
   `dir_friend dot path/ -l fdp -c blues, -e "arrowhead:none"`
 
-  `dir_friend dot path/ -g "bgcolor:lime,rkdir:LR,splines:ortho"`
+  `dir_friend dot path/ -c greens -g "bgcolor:azure,rankdir:LR,splines:ortho"`
     EOS
     option :layout, aliases:"-l"
     option :colorscheme, aliases:"-c"
