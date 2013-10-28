@@ -42,19 +42,19 @@ DirFriend is a friend of file directory.
     end
     default_task :banner
     map "-h" => :banner
-  end
 
-  no_commands do
-    def opt_parser(opt)
-      %i(global nodes edges).each do |attr|
-        if kv = opt.delete(attr)
-          kv_arr = kv.split(/\s*,\s*/)
-                     .map{ |kv| kv.split(/\s*:\s*/).map(&:strip) }
-                     .map{ |k, v| [k.intern, v] }
-          opt.update({attr => Hash[ kv_arr ]})
+    no_commands do
+      def opt_parser(opt)
+        %i(global nodes edges).each do |attr|
+          if kv = opt.delete(attr)
+            kv_arr = kv.split(/\s*,\s*/)
+                       .map{ |kv| kv.split(/\s*:\s*/).map(&:strip) }
+                       .map{ |k, v| [k.intern, v] }
+            opt.update({attr => Hash[ kv_arr ]})
+          end
         end
+        opt
       end
-      opt
     end
   end
 end
