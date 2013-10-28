@@ -11,13 +11,13 @@ module DirFriend
     desc "dot PATH", "Build & Save a graphviz dot file"
     option :layout, aliases:"-l"
     option :colorscheme, aliases:"-c"
-    option :dir_shape, aliases:"-d"
-    option :file_shape, aliases:"-f"
+    option :dir_shape
+    option :file_shape
     option :global, aliases:"-g"
     option :nodes, aliases:"-n"
     option :edges, aliases:"-e"
     option :save, aliases:"-s", default:'a'
-    option :depth, default:9
+    option :depth, aliases:"-d", default:9
     def dot(path)
       opt = options.dup.inject({}) { |h, (k,v)| h[k.intern] = v; h  }
       save_path = opt.delete(:save)
