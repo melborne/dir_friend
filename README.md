@@ -1,6 +1,6 @@
 # DirFriend
 
-`DirFriend` is a friend of file directory.
+`DirFriend` is a tool for visualizing file directory.
 
 ## Installation
 
@@ -18,7 +18,62 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your terminal, try followings;
+
+    # Show help
+    % dir_friend
+
+    # Create a dot file for path/to/project
+    % dir_friend dot path/to/project
+    
+    # Create with some options
+    % dir_friend dot path/to/project -c blues --dir_shape box
+    % dir_friend dot path/to/project -g "bgcolor:azure,rkdir:LR,splines:ortho"
+
+In your ruby script;
+
+    require 'dir_friend'
+    
+    dir = DirFriend::D.new('path/to/project')
+    
+    # Show info
+    dir.info #=> {:directories=>7, :files=>2, :depth=>3}
+
+    # Show children in the directory
+    puts dir.entries
+    >> F: Gemfile
+    >> D: lib
+    >> F: LICENSE.txt
+    >> F: myproject.gemspec
+    >> F: Rakefile
+    >> F: README.md
+    
+    # Traverse all files and directories under the directory
+    dir.each do |f|
+      puts f.path
+    end
+    >> /project/myproject/Gemfile
+    >> /project/myproject/lib
+    >> /project/myproject/lib/myproject
+    >> /project/myproject/lib/myproject/version.rb
+    >> /project/myproject/lib/myproject.rb
+    >> /project/myproject/LICENSE.txt
+    >> /project/myproject/myproject.gemspec
+    >> /project/myproject/Rakefile
+    >> /project/myproject/README.md
+
+    # Output a dot data(Gviz object)
+    puts dir.to_dot # => dot data
+
+    # with options
+    opt = {colorscheme:greens, layout:'fdp', global:"bgcolor:azure,splines:ortho" }
+    puts dir.to_dot(opt)
+
+    # Save to a file
+    dir.to_dot.save(:mydot)
+    
+    # Open Graphviz.app with tempfile for dot data(mac only)
+    dir.to_dot open:true
 
 ## Contributing
 

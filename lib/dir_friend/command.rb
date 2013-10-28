@@ -8,7 +8,14 @@ module DirFriend
       puts Any.new(path).info
     end
 
-    desc "dot PATH", "Build & Save a graphviz dot file"
+    desc "dot PATH", "Create a graphviz dot file for PATH"
+    long_desc <<-EOS
+ex.
+
+  `dir_friend dot path/ -l fdp -c blues, -e "arrowhead:none"`
+
+  `dir_friend dot path/ -g "bgcolor:lime,rkdir:LR,splines:ortho"`
+    EOS
     option :layout, aliases:"-l"
     option :colorscheme, aliases:"-c"
     option :dir_shape
@@ -36,7 +43,7 @@ module DirFriend
     desc "banner", "Describe DirFriend usage", hide:true
     def banner
       banner = <<-EOS
-DirFriend is a friend of file directory.
+DirFriend is a tool for visualizing file directory.
       EOS
       puts banner
       help

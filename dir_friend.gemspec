@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = DirFriend::VERSION
   spec.authors       = ["kyoendo"]
   spec.email         = ["postagie@gmail.com"]
-  spec.description   = %q{Show directory information}
-  spec.summary       = %q{Show directory information}
+  spec.description   = %q{`DirFriend` is a tool for visualizing file directory.}
+  spec.summary       = %q{`DirFriend` is a tool for visualizing file directory.}
   spec.homepage      = "https://github.com/melborne/dir_friend"
   spec.license       = "MIT"
 
