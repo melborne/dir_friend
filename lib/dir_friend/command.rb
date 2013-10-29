@@ -2,6 +2,7 @@ require 'thor'
 
 module DirFriend
   class Command < Thor
+    include Thor::Actions
 
     desc "info PATH", "Show PATH info"
     def info(path)
@@ -34,7 +35,9 @@ ex.
       dir.to_dot(opt).save(save_path)
       puts "Dot file created: `#{save_path}.dot`"
 
-      system("open", "#{save_path}.dot") if options[:with_open]
+      if options[:with_open] && OS.mac?
+        run(%Q{open "#{save_path}.dot"}, verbose: false)
+      end
     end
 
     desc "version", "Show DirFriend version"
