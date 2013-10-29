@@ -5,7 +5,7 @@ module DirFriend
     def initialize(name, level:0)
       @path = File.expand_path(name)
       @name = File.basename(@path)
-      @stat = File.stat(@path)
+      @stat = File.lstat(@path)
       @level = level
     end
 
