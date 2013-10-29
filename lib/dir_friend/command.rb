@@ -2,7 +2,8 @@ require 'thor'
 
 module DirFriend
   class Command < Thor
-    
+    include Thor::Actions
+
     desc "info PATH", "Show PATH info"
     def info(path)
       puts Any.new(path).info
@@ -25,6 +26,7 @@ ex.
     option :edges, aliases:"-e"
     option :save, aliases:"-s", default:'a'
     option :depth, aliases:"-d", default:9
+    option :with_open, aliases:"-o", default: true, type: :boolean
     def dot(path)
       opt = options.dup.inject({}) { |h, (k,v)| h[k.intern] = v; h  }
       save_path = opt.delete(:save)
@@ -32,6 +34,10 @@ ex.
       dir = D.new(path, depth:options[:depth].to_i)
       dir.to_dot(opt).save(save_path)
       puts "Dot file created: `#{save_path}.dot`"
+
+      if options[:with_open] && OS.mac?
+        run(%Q{open "#{save_path}.dot"}, verbose: false)
+      end
     end
 
     desc "version", "Show DirFriend version"
