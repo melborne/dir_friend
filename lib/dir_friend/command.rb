@@ -2,7 +2,7 @@ require 'thor'
 
 module DirFriend
   class Command < Thor
-    
+
     desc "info PATH", "Show PATH info"
     def info(path)
       puts Any.new(path).info
