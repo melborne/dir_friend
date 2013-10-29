@@ -26,7 +26,7 @@ ex.
     option :edges, aliases:"-e"
     option :save, aliases:"-s", default:'a'
     option :depth, aliases:"-d", default:9
-    option :with_open, aliases:"-o", default: true, type: :boolean if OS.mac?
+    option :with_open, aliases:"-o", default: true, type: :boolean
     def dot(path)
       opt = options.dup.inject({}) { |h, (k,v)| h[k.intern] = v; h  }
       save_path = opt.delete(:save)
