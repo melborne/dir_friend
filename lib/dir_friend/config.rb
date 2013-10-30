@@ -2,13 +2,20 @@ module DirFriend
   class Config
     CONFIG_PATH = File.join(ENV['HOME'], '.dirfriend/config.yaml')
     CONFIG_FILE = File.basename(CONFIG_PATH)
-
     def self.build(theme)
+      new.build(theme)
+    end
+
+    def build(theme)
       if theme
         use_passed_theme(theme)
       else
         use_default_theme
       end
+    end
+
+    def themes
+      @themes ||= YAML.load_file(CONFIG_PATH).to_keysym_hash
     rescue Errno::ENOENT
       puts "'#{CONFIG_FILE}' not found."
       {}
@@ -16,17 +23,14 @@ module DirFriend
       abort "Syntax errors found in your '#{CONFIG_FILE}'."
     end
 
-    def self.themes
-      @themes ||= YAML.load_file(CONFIG_PATH).to_keysym_hash
-    end
-
-    def self.use_passed_theme(theme)
+    private
+    def use_passed_theme(theme)
       themes[theme.intern].tap do |tm|
         abort "Theme: '#{theme}' not found in your #{CONFIG_FILE}" unless tm
       end
     end
 
-    def self.use_default_theme
+    def use_default_theme
       case defo = themes.delete(:default)
       when Symbol, String
         themes[defo.intern] || {}
@@ -36,7 +40,5 @@ module DirFriend
         {}
       end
     end
-
-    private_class_method :themes, :use_default_theme, :use_passed_theme
   end
 end
