@@ -12,4 +12,12 @@ module HashExtension
   end
 end
 
+module StringExtension
+  def ~
+    margin = scan(/^ +/).map(&:size).min
+    gsub(/^ {#{margin}}/, '')
+  end
+end
+
 Hash.send(:include, HashExtension)
+String.send(:include, StringExtension)
