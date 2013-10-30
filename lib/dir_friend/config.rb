@@ -4,7 +4,6 @@ module DirFriend
     CONFIG_FILE = File.basename(CONFIG_PATH)
 
     def self.build(theme)
-      themes = YAML.load_file(CONFIG_PATH).to_keysym_hash
       if theme
         use_passed_theme(theme)
       else
@@ -17,13 +16,17 @@ module DirFriend
       abort "Syntax errors found in your '#{CONFIG_FILE}'."
     end
 
+    def self.themes
+      @themes ||= YAML.load_file(CONFIG_PATH).to_keysym_hash
+    end
+
     def self.use_passed_theme(theme)
       themes[theme.intern].tap do |tm|
         abort "Theme: '#{theme}' not found in your #{CONFIG_FILE}" unless tm
       end
     end
 
-    def self.use_default_theme(themes)
+    def self.use_default_theme
       case defo = themes.delete(:default)
       when Symbol, String
         themes[defo.intern] || {}
@@ -34,6 +37,6 @@ module DirFriend
       end
     end
 
-    private_class_method :use_default_theme, :use_passed_theme
+    private_class_method :themes, :use_default_theme, :use_passed_theme
   end
 end
