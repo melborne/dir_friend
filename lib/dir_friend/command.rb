@@ -1,4 +1,5 @@
 require 'thor'
+require 'yaml'
 
 module DirFriend
   class Command < Thor
@@ -27,10 +28,12 @@ ex.
     option :save, aliases:"-s", default:'a'
     option :depth, aliases:"-d", default:9
     option :with_open, aliases:"-o", default: true, type: :boolean
+    option :theme, aliases:"-t"
     def dot(path)
-      opt = options.dup.inject({}) { |h, (k,v)| h[k.intern] = v; h  }
+      opt = key_symbolize(options)
       save_path = opt.delete(:save)
       opt = opt_parser(opt)
+
       dir = D.new(path, depth:options[:depth].to_i)
       dir.to_dot(opt).save(save_path)
       puts "Dot file created: `#{save_path}.dot`"
@@ -67,7 +70,43 @@ DirFriend is a tool for visualizing file directory.
             opt.update({attr => Hash[ kv_arr ]})
           end
         end
-        opt
+        theme = read_config(opt.delete(:theme))
+        theme.merge(opt)
+      end
+
+
+      def key_symbolize(hash)
+        return hash unless hash.is_a?(Hash)
+        hash.inject({}) do |h, (k, v)|
+          h[k.intern] = key_symbolize(v)
+          h
+        end
+      end
+
+      def read_config(theme)
+        themes = YAML.load_file(File.join ENV['HOME'], '.dirfriend/config.yaml')
+        themes = key_symbolize(themes)
+        if theme
+          if tm = themes[theme.intern]
+            return tm
+          else
+            abort "Theme: '#{theme}' not found in your config.yaml"
+          end
+        end
+
+        case defo = themes.delete(:default)
+        when Symbol, String
+          themes[defo.intern] || {}
+        when Hash
+          defo
+        else
+          {}
+        end
+      rescue Errno::ENOENT
+        puts 'config.yaml not found.'
+        {}
+      rescue Psych::SyntaxError
+        abort 'some syntax errors found in your config.yaml.'
       end
     end
   end
