@@ -30,7 +30,7 @@ ex.
     option :with_open, aliases:"-o", default: true, type: :boolean
     option :theme, aliases:"-t"
     def dot(path)
-      opt = key_symbolize(options)
+      opt = options.to_keysym_hash
       save_path = opt.delete(:save)
       opt = opt_parser(opt)
 
@@ -70,43 +70,8 @@ DirFriend is a tool for visualizing file directory.
             opt.update({attr => Hash[ kv_arr ]})
           end
         end
-        theme = read_config(opt.delete(:theme))
+        theme = Config.build(opt.delete(:theme))
         theme.merge(opt)
-      end
-
-
-      def key_symbolize(hash)
-        return hash unless hash.is_a?(Hash)
-        hash.inject({}) do |h, (k, v)|
-          h[k.intern] = key_symbolize(v)
-          h
-        end
-      end
-
-      def read_config(theme)
-        themes = YAML.load_file(File.join ENV['HOME'], '.dirfriend/config.yaml')
-        themes = key_symbolize(themes)
-        if theme
-          if tm = themes[theme.intern]
-            return tm
-          else
-            abort "Theme: '#{theme}' not found in your config.yaml"
-          end
-        end
-
-        case defo = themes.delete(:default)
-        when Symbol, String
-          themes[defo.intern] || {}
-        when Hash
-          defo
-        else
-          {}
-        end
-      rescue Errno::ENOENT
-        puts 'config.yaml not found.'
-        {}
-      rescue Psych::SyntaxError
-        abort 'some syntax errors found in your config.yaml.'
       end
     end
   end
