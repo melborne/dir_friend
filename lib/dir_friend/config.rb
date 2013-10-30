@@ -2,11 +2,11 @@ module DirFriend
   class Config
     CONFIG_PATH = File.join(ENV['HOME'], '.dirfriend/config.yaml')
     CONFIG_FILE = File.basename(CONFIG_PATH)
-    def self.build(theme)
-      new.build(theme)
+    def self.read(theme)
+      new.read(theme)
     end
 
-    def build(theme)
+    def read(theme)
       if theme
         use_passed_theme(theme)
       else

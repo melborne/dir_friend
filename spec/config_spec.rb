@@ -39,10 +39,10 @@ describe DirFriend::Config do
     end
   end
 
-  describe '#build' do
+  describe '#read' do
     context 'with nil argument' do
       it 'returns default theme' do
-        theme = described_class.build(nil)
+        theme = described_class.read(nil)
         expected = {colorscheme:'reds', layout:'fdp'}
         expect(theme).to eq expected
       end
@@ -50,7 +50,7 @@ describe DirFriend::Config do
 
     context 'with a theme argument' do
       it 'returns the theme' do
-        theme = described_class.build(:theme2)
+        theme = described_class.read(:theme2)
         expected = {colorscheme:'blues', layout:'dot'}
         expect(theme).to eq expected
       end
@@ -73,7 +73,7 @@ describe DirFriend::Config do
       end
 
       it 'returns the default value' do
-        theme = described_class.build(nil)
+        theme = described_class.read(nil)
         expected = {layout:'fdp', graph:{splines:'ortho'}}
         expect(theme).to eq expected
       end

@@ -70,7 +70,7 @@ DirFriend is a tool for visualizing file directory.
             opt.update({attr => Hash[ kv_arr ]})
           end
         end
-        theme = Config.build(opt.delete(:theme))
+        theme = Config.read(opt.delete(:theme))
         theme.merge(opt)
       end
     end
