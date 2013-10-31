@@ -14,20 +14,55 @@
 #
 # ex. `dir_friend dot path/ -t pop
 
-default:
+default: tree
 
-pop:
+tree:
   global:
     rankdir: LR
     splines: ortho
-    bgcolor: azure
+  dir_shape: diamond
+
+blueegg:
+  colorscheme: blues
+  edges:
+    color: lightblue
   nodes:
     shape: egg
 
-hello:
-  colorscheme: purd
-  layout: fdp
+inline:
+  layout: osage
+  colorscheme: greens
+  nodes:
+    shape: box
   edges:
-    color: reds
-  dir_shape: box
+    color: gold
 
+closeup:
+  layout: neato
+  colorscheme: purd
+  nodes:
+    shape: polygon
+
+flower:
+  layout: circo
+  colorscheme: rdylgn
+  nodes:
+    shape: doublecircle
+
+rigid:
+  layout: sfdp
+  colorscheme: greys
+  nodes:
+    shape: doubleoctagon
+
+star:
+  layout: dot
+  colorscheme: set310
+  global:
+    bgcolor: midnightblue
+    splines: curved
+  edges:
+    color: snow
+    arrowhead: none
+  nodes:
+    shape: star
