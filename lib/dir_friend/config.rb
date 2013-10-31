@@ -17,13 +17,26 @@ module DirFriend
     def themes
       @themes ||= YAML.load_file(CONFIG_PATH).to_keysym_hash
     rescue Errno::ENOENT
-      puts "'#{CONFIG_FILE}' not found."
-      {}
-    rescue Psych::SyntaxError
-      abort "Syntax errors found in your '#{CONFIG_FILE}'."
+      create
+      retry
+    rescue Psych::SyntaxError => e
+      abort "Syntax errors found in your '#{CONFIG_FILE}': #{e}."
     end
 
     private
+    def create
+      dir = File.dirname(CONFIG_PATH)
+      Dir.mkdir(dir) unless dir
+      File.copy_stream(template, CONFIG_FILE)
+      puts "'#{CONFIG_FILE}' created in #{dir}"
+    rescue => e
+      abort "Something go wrong: #{e}"
+    end
+
+    def template
+      File.join(__dir__, 'template.yaml')
+    end
+
     def use_passed_theme(theme)
       themes[theme.intern].tap do |tm|
         abort "Theme: '#{theme}' not found in your #{CONFIG_FILE}" unless tm

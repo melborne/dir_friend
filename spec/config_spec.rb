@@ -30,7 +30,7 @@ describe DirFriend::Config do
     end
 
     context 'config file not exist' do
-      it 'returns a empty hash' do
+      it 'creates a config file and returns a empty hash' do
         described_class.new.instance_variable_set("@themes", nil)
         stub_const("DirFriend::Config::CONFIG_PATH", "wrong_name_config.yaml")
         themes = described_class.new.themes

@@ -1,0 +1,33 @@
+# This is a template for `dir_friend dot` subcommand.
+# 
+# You can set a theme to default by giving
+# one of the theme names or a hash settings directly
+#
+# ex.
+#   default: :pop
+#
+#   default:
+#     colorscheme: reds
+#     style: fdp
+#
+# Themes can be called with '--theme' or '-t' option of `dot` subcommand.
+#
+# ex. `dir_friend dot path/ -t pop
+
+default:
+
+pop:
+  global:
+    rankdir: LR
+    splines: ortho
+    bgcolor: azure
+  nodes:
+    shape: egg
+
+hello:
+  colorscheme: purd
+  layout: fdp
+  edges:
+    color: reds
+  dir_shape: box
+
