@@ -16,6 +16,12 @@ Or install it yourself as:
 
     $ gem install dir_friend
 
+## Requisite
+
+To open a DOT file, Graphviz is required.
+
+[Graphviz | Graphviz - Graph Visualization Software](http://www.graphviz.org/ "Graphviz | Graphviz - Graph Visualization Software")
+
 ## Usage
 
 In your terminal, try followings;
@@ -33,6 +39,8 @@ In your terminal, try followings;
 `dot` subcommand first creates `config.yaml` in 'YOUR_HOME_DIR/.dirfriend', which contains some pre-defined theme settings. You can call any of the themes with '--theme (or -t)' option for `dot` subcommand.
 
     % dir_friend dot path/to/project --theme blueegg
+
+You can create your own themes from scratch or edit them.
 
 
 In your ruby script;
