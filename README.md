@@ -1,6 +1,6 @@
 # DirFriend
 
-`DirFriend` is a tool for visualizing file directory.
+`DirFriend` is a tool for generating a DOT file which represent file directories.
 
 ## Installation
 
@@ -26,9 +26,14 @@ In your terminal, try followings;
     # Create a dot file for path/to/project
     % dir_friend dot path/to/project
     
-    # Create with some options
+    # Create it with some options
     % dir_friend dot path/to/project -l fdp -c blues --dir_shape box
     % dir_friend dot path/to/project -g "bgcolor:azure,rkdir:LR,splines:ortho"
+
+`dot` subcommand first creates `config.yaml` in 'YOUR_HOME_DIR/.dirfriend', which contains some pre-defined theme settings. You can call any of the themes with '--theme (or -t)' option for `dot` subcommand.
+
+    % dir_friend dot path/to/project --theme blueegg
+
 
 In your ruby script;
 
