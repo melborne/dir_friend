@@ -20,6 +20,7 @@ describe DirFriend::Command do
   describe '#dot' do
     before(:each) do
       %w(A A/D A/D/G).each { |d| Dir.mkdir d }
+      DirFriend::Config.enable = false
     end
 
     around do |example|

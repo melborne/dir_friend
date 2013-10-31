@@ -1,10 +1,15 @@
+
 module DirFriend
   class Config
     CONFIG_PATH = File.join(ENV['HOME'], '.dirfriend/config.yaml')
     CONFIG_FILE = File.basename(CONFIG_PATH)
-    def self.read(theme)
-      new.read(theme)
+    class << self
+      def read(theme)
+        new.read(theme)
+      end
+      attr_accessor :enable
     end
+    enable = true
 
     def read(theme)
       if theme
@@ -18,7 +23,7 @@ module DirFriend
       @themes ||= YAML.load_file(CONFIG_PATH).to_keysym_hash
     rescue Errno::ENOENT
       create
-      retry
+      {}
     rescue Psych::SyntaxError => e
       abort "Syntax errors found in your '#{CONFIG_FILE}': #{e}."
     end
@@ -27,7 +32,7 @@ module DirFriend
     def create
       dir = File.dirname(CONFIG_PATH)
       Dir.mkdir(dir) unless dir
-      File.copy_stream(template, CONFIG_FILE)
+      FileUtils.copy(template, CONFIG_FILE)
       puts "'#{CONFIG_FILE}' created in #{dir}"
     rescue => e
       abort "Something go wrong: #{e}"

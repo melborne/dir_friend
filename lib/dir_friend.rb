@@ -1,5 +1,6 @@
 require 'gviz'
 require 'tempfile'
+require 'fileutils'
 
 require 'dir_friend/version'
 require 'dir_friend/core_ext'
