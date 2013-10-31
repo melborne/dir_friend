@@ -33,9 +33,10 @@ module DirFriend
       dir = File.dirname(CONFIG_PATH)
       Dir.mkdir(dir) unless Dir.exist?(dir)
       FileUtils.copy(template, CONFIG_PATH)
-      puts "'#{CONFIG_FILE}' created in #{dir}"
+      puts "'#{CONFIG_FILE}' created in #{dir}."
+      puts "You can set a theme for dot from pre-defined or created by you!"
     rescue => e
-      abort "Something go wrong: #{e}"
+      abort "Something go wrong: #{e}."
     end
 
     def template
@@ -44,7 +45,7 @@ module DirFriend
 
     def use_passed_theme(theme)
       themes[theme.intern].tap do |tm|
-        abort "Theme: '#{theme}' not found in your #{CONFIG_FILE}" unless tm
+        abort "Theme: '#{theme}' not found in your #{CONFIG_FILE}." unless tm
       end
     end
 

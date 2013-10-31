@@ -36,7 +36,7 @@ module DirFriend
 
       dir = D.new(path, depth:options[:depth].to_i)
       dir.to_dot(opt).save(save_path)
-      puts "Dot file created: `#{save_path}.dot`"
+      puts "'#{save_path}.dot' created in the current directory."
 
       if options[:with_open] && OS.mac?
         run(%Q{open "#{save_path}.dot"}, verbose: false)

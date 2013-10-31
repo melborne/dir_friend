@@ -38,7 +38,7 @@ describe DirFriend::Command do
             with('open "a.dot"', verbose: false)
 
           stdout = capture(:stdout) { described_class.start(['dot', 'A']) }
-          expect(stdout).to include 'Dot file created:'
+          expect(stdout).to include 'created in the current directory'
         end
 
         it 'should parse option' do
@@ -49,7 +49,7 @@ describe DirFriend::Command do
           stdout = capture(:stdout) {
             described_class.start(['dot', '--with-open=false', 'A'])
           }
-          expect(stdout).to include 'Dot file created:'
+          expect(stdout).to include 'created in the current directory'
         end
       end if DirFriend::OS.mac?
 
@@ -66,7 +66,7 @@ describe DirFriend::Command do
           stdout = capture(:stdout) {
             described_class.start(['dot', '--with-open', 'A'])
           }
-          expect(stdout).to include 'Dot file created:'
+          expect(stdout).to include 'created in the current directory'
         end
       end
     end
