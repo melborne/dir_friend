@@ -9,7 +9,7 @@ module DirFriend
       end
       attr_accessor :enable
     end
-    enable = true
+    self.enable = true
 
     def read(theme)
       if theme
@@ -31,8 +31,8 @@ module DirFriend
     private
     def create
       dir = File.dirname(CONFIG_PATH)
-      Dir.mkdir(dir) unless dir
-      FileUtils.copy(template, CONFIG_FILE)
+      Dir.mkdir(dir) unless Dir.exist?(dir)
+      FileUtils.copy(template, CONFIG_PATH)
       puts "'#{CONFIG_FILE}' created in #{dir}"
     rescue => e
       abort "Something go wrong: #{e}"
