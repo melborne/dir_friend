@@ -29,12 +29,14 @@ module DirFriend
     option :depth, aliases:"-d", default:9
     option :with_open, aliases:"-o", default: true, type: :boolean
     option :theme, aliases:"-t"
+    option :exclude, aliases:"-x"
     def dot(path)
       opt = options.to_keysym_hash
       save_path = opt.delete(:save)
+      exclude = opt.delete(:exclude).split(',')
       opt = opt_parser(opt)
 
-      dir = D.new(path, depth:options[:depth].to_i)
+      dir = D.new(path, depth:options[:depth].to_i, exclude:exclude)
       dir.to_dot(opt).save(save_path)
       puts "'#{save_path}.dot' created in the current directory."
 
