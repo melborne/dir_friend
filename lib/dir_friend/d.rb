@@ -13,7 +13,7 @@ module DirFriend
     def initialize(name='.', level:0, depth:Float::MAX.to_i, exclude:[])
       super(name, level:level)
       @entries = []
-      @exclude = exclude
+      @exclude = exclude.map { |ex| File.expand_path ex }
       build(depth) if depth >= 1
       self
     end
@@ -71,7 +71,7 @@ module DirFriend
     def build(depth)
       entries = Dir[File.join(path, '*')]
       entries.each do |ent|
-        next if @exclude.include?(ent)
+        next if @exclude.include?(File.expand_path ent)
         @entries << Any.new(ent, level:level+1, depth:depth-1, exclude:@exclude)
       end
     end

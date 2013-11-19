@@ -33,7 +33,7 @@ module DirFriend
     def dot(path)
       opt = options.to_keysym_hash
       save_path = opt.delete(:save)
-      exclude = opt.delete(:exclude).split(',')
+      exclude = (ex=opt.delete(:exclude)) ? ex.split(',') : []
       opt = opt_parser(opt)
 
       dir = D.new(path, depth:options[:depth].to_i, exclude:exclude)
