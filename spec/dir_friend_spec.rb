@@ -137,6 +137,27 @@ describe DirFriend do
         expect(test).to be_true
       end
     end
+
+    context 'exclude specific directories' do
+      before(:each) do
+        %w(A/J).each { |d| Dir.mkdir d }
+        %w(A/J/k A/J/l).each { |f| File.write(f, '') }
+        @dx = DirFriend::D.new('A', exclude:['A/D/G', 'A/J'])
+      end
+
+      describe '#entries' do
+        it 'returns entries except the excluded ones' do
+          expect(@dx.entries.map(&:name).sort).to eq %w(D a b c)
+        end
+      end
+
+      describe '#each' do
+        it 'iterates whole files except the excluded ones' do
+          ent = @dx.map(&:name).sort
+          expect(ent).to eq %w(D a b c e f)
+        end
+      end
+    end
   end
 
   describe DirFriend::Any do

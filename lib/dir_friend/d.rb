@@ -10,9 +10,10 @@ module DirFriend
   class D < F
     include Enumerable
     attr_reader :entries
-    def initialize(name='.', level:0, depth:Float::MAX.to_i)
+    def initialize(name='.', level:0, depth:Float::MAX.to_i, exclude:[])
       super(name, level:level)
       @entries = []
+      @exclude = exclude
       build(depth) if depth >= 1
       self
     end
@@ -70,7 +71,8 @@ module DirFriend
     def build(depth)
       entries = Dir[File.join(path, '*')]
       entries.each do |ent|
-        @entries << Any.new(ent, level:level+1, depth:depth-1)
+        next if @exclude.include?(ent)
+        @entries << Any.new(ent, level:level+1, depth:depth-1, exclude:@exclude)
       end
     end
   end
