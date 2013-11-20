@@ -25,11 +25,11 @@ module DirFriend
     option :global, aliases:"-g"
     option :nodes, aliases:"-n"
     option :edges, aliases:"-e"
-    option :save, aliases:"-s", default:'a'
+    option :save, aliases:"-s", default:'a', desc:"Save filename"
     option :depth, aliases:"-d", default:9
     option :with_open, aliases:"-o", default: true, type: :boolean
     option :theme, aliases:"-t"
-    option :exclude, aliases:"-x"
+    option :exclude, aliases:"-x", desc:"Specify directories for exclude with comma separated values"
     def dot(path)
       opt = options.to_keysym_hash
       save_path = opt.delete(:save)
