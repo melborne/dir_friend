@@ -1,0 +1,10 @@
+== 0.1.2 / 2013-11-20
+  * Add exclude directory option to D.new and dot subcommand
+
+== 0.1.0 / 2013-10-31
+  * Add Config class to handle config theme file
+  * Add theme option to dot subcommand
+
+== 0.0.4 / 2013-10-29
+  * Add with-open option to dot subcommand
+
